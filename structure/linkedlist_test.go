@@ -105,7 +105,8 @@ func TestLinkedList_Has(t *testing.T) {
 		testError(t, "Has(1) is called after NewLinkedList(), ok", ok, false)
 	}
 	ll.Add(1)
-	ok = ll.Has(1)
+	ll.Add(2)
+	ok = ll.Has(2)
 	if ok != true {
 		testErrorf(t, "Has(1) is called after Add(1)", ok, true)
 	}
