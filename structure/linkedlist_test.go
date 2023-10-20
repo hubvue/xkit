@@ -187,17 +187,32 @@ func TestLinkedList_Update(t *testing.T) {
 	}
 }
 
-func TestLinkedList_ToString(t *testing.T) {
+func TestLinkedList_String(t *testing.T) {
 	ll := NewLinkedList[int]()
-	s := ll.ToString()
+	s := ll.String()
 	if s != "nil" {
 		testErrorf(t, "ToString(), s", s, "nil")
 	}
 	ll.Add(1)
 	ll.Add(2)
-	s = ll.ToString()
+	s = ll.String()
 	expected := "1 -> 2 -> nil"
 	if s != expected {
 		testErrorf(t, "ToString(), s", s, expected)
+	}
+}
+
+func TestLinkedList_Slice(t *testing.T) {
+	ll := NewLinkedList[int]()
+	s := ll.Slice()
+	if len(s) != 0 {
+		testErrorf(t, "Slice(), len", len(s), 0)
+	}
+	ll.Add(0)
+	ll.Add(1)
+	ll.Add(2)
+	s = ll.Slice()
+	if len(s) != ll.Size() {
+		testErrorf(t, "Slice(), len", len(s), ll.Size())
 	}
 }

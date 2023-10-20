@@ -1,6 +1,8 @@
 package structure
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type LinkedLister[T comparable] interface {
 	Add(val T)
@@ -12,7 +14,6 @@ type LinkedLister[T comparable] interface {
 	Size() int
 	Empty() bool
 	Reverse()
-	ToString() string
 }
 
 // LinkedList is a linked list data structure.
@@ -133,8 +134,19 @@ func (ll *LinkedList[T]) Delete(val T) bool {
 	return false
 }
 
-// The ToString method is used to convert a linked list into a string output
-func (ll *LinkedList[T]) ToString() string {
+func (ll *LinkedList[T]) Slice() []T {
+	slice := make([]T, ll.size)
+	current := ll.head
+	i := 0
+	for current != nil {
+		slice[i] = current.Val
+		current = current.Next
+	}
+	return slice
+}
+
+// The String method is used to convert a linked list into a string output
+func (ll *LinkedList[T]) String() string {
 	current := ll.head
 	var s string
 	for current != nil {

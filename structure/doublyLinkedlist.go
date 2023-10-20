@@ -2,6 +2,10 @@ package structure
 
 import "fmt"
 
+type DoublyLinkedLister[T comparable] interface {
+	LinkedList[T]
+}
+
 type DoublyNode[T comparable] struct {
 	Val  T
 	Prev *DoublyNode[T]
@@ -17,8 +21,8 @@ func NewDoublyNode[T comparable](val T, prev *DoublyNode[T], next *DoublyNode[T]
 }
 
 type DoublyLinkedList[T comparable] struct {
-	Head *DoublyNode[T]
-	Tail *DoublyNode[T]
+	head *DoublyNode[T]
+	tail *DoublyNode[T]
 }
 
 func NewDoublyLinkedList[T comparable]() DoublyLinkedList[T] {
@@ -27,18 +31,18 @@ func NewDoublyLinkedList[T comparable]() DoublyLinkedList[T] {
 
 func (dll *DoublyLinkedList[T]) Add(val T) {
 	newNode := NewDoublyNode(val, nil, nil)
-	if dll.Head == nil {
-		dll.Head = newNode
-		dll.Tail = newNode
+	if dll.head == nil {
+		dll.head = newNode
+		dll.tail = newNode
 		return
 	}
-	newNode.Prev = dll.Tail
-	dll.Tail.Next = newNode
-	dll.Tail = newNode
+	newNode.Prev = dll.tail
+	dll.tail.Next = newNode
+	dll.tail = newNode
 }
 
 func (dll *DoublyLinkedList[T]) Print() {
-	current := dll.Head
+	current := dll.head
 	for current != nil {
 		fmt.Printf("%v -> ", current.Val)
 		current = current.Next
@@ -49,7 +53,7 @@ func (dll *DoublyLinkedList[T]) Print() {
 
 func (dll *DoublyLinkedList[T]) Reverse() {
 	var pre *DoublyNode[T]
-	current := dll.Head
+	current := dll.head
 	for current != nil {
 		next := current.Next
 		current.Next = pre
@@ -57,6 +61,6 @@ func (dll *DoublyLinkedList[T]) Reverse() {
 		pre = current
 		current = next
 	}
-	dll.Tail = dll.Head
-	dll.Head = pre
+	dll.tail = dll.head
+	dll.head = pre
 }
