@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// LinkedLister interface constraints
 type LinkedLister[T comparable] interface {
 	Add(val T)
 	Insert(target, val T) bool
@@ -16,24 +17,24 @@ type LinkedLister[T comparable] interface {
 	Reverse()
 }
 
-// LinkedList is a linked list data structure.
+// LinkedList data structure.
 type LinkedList[T comparable] struct {
 	head *LinkedNode[T]
 	size int
 }
 
-// NewLinkedList is the method to create a linked list instance.
+// NewLinkedList is the method to create a LinkedList instance.
 func NewLinkedList[T comparable]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
-// LinkedNode is a linked list node data structure.
+// LinkedNode data structure.
 type LinkedNode[T comparable] struct {
 	Val  T
 	Next *LinkedNode[T]
 }
 
-// NewLinkedNode is the method to create a linked list node instance.
+// NewLinkedNode is the method to create a LinkedNode instance.
 func NewLinkedNode[T comparable](val T, next *LinkedNode[T]) *LinkedNode[T] {
 	return &LinkedNode[T]{
 		Val:  val,
@@ -41,7 +42,7 @@ func NewLinkedNode[T comparable](val T, next *LinkedNode[T]) *LinkedNode[T] {
 	}
 }
 
-// Add method is inserts an element at the end of a chain table.
+// Add method is inserts an element at the end of a linked list.
 func (ll *LinkedList[T]) Add(val T) {
 	newNode := NewLinkedNode(val, nil)
 	ll.size++
