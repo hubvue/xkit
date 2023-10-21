@@ -1,7 +1,12 @@
 package structure
 
-type queue[T comparable] interface {
+type Queueable[T comparable] interface {
 	Enqueue(val T)
+	Dequeue() (val T, ok bool)
+	Front() (val T, ok bool)
+	Rear() (val T, ok bool)
+	Empty() bool
+	Size() int
 }
 
 type Queue[T comparable] struct {
@@ -10,12 +15,12 @@ type Queue[T comparable] struct {
 	size  int
 }
 
-func NewQueue[T comparable]() Queue[T] {
-	return Queue[T]{}
+func NewQueue[T comparable]() *Queue[T] {
+	return &Queue[T]{}
 }
 
-func (q *Queue[T]) Enqueue(item T) {
-	newNode := NewLinkedNode(item, nil)
+func (q *Queue[T]) Enqueue(val T) {
+	newNode := NewLinkedNode(val, nil)
 	if q.front == nil {
 		q.front = newNode
 	} else {
@@ -58,4 +63,9 @@ func (q *Queue[T]) Empty() bool {
 
 func (q *Queue[T]) Size() int {
 	return q.size
+}
+
+func (q *Queue[T]) Slice() []T {
+	//	TODO:
+	return make([]T, 0)
 }
