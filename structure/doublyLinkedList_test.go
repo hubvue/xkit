@@ -38,6 +38,10 @@ func TestDoublyLinkedList_DeleteHead(t *testing.T) {
 
 }
 
+func TestDoublyLinkedList_DeleteTail(t *testing.T) {
+	
+}
+
 func TestDoublyLinkedList_Has(t *testing.T) {
 
 }
