@@ -47,7 +47,7 @@ func NewLinkedNode[T comparable](val T, next *LinkedNode[T]) *LinkedNode[T] {
 	}
 }
 
-// The InsertTail method inserts a new element at the tail of the linked list.
+// The InsertTail method inserts a new element at the tail of the linked list
 func (ll *LinkedList[T]) InsertTail(val T) {
 	newNode := NewLinkedNode(val, nil)
 	ll.size++
