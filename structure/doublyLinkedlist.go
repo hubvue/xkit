@@ -58,7 +58,7 @@ func (dll *DoublyLinkedList[T]) AddHead(val T) {
 }
 
 func (dll *DoublyLinkedList[T]) Insert(target, val T) bool {
-	//	TODO:
+
 	return false
 }
 
