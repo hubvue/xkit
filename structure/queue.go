@@ -10,62 +10,39 @@ type Queueable[T comparable] interface {
 }
 
 type Queue[T comparable] struct {
-	front *LinkedNode[T]
-	rear  *LinkedNode[T]
-	size  int
+	dll *DoublyLinkedList[T]
 }
 
 func NewQueue[T comparable]() *Queue[T] {
-	return &Queue[T]{}
+	return &Queue[T]{
+		dll: NewDoublyLinkedList[T](),
+	}
 }
 
 func (q *Queue[T]) Enqueue(val T) {
-	newNode := NewLinkedNode(val, nil)
-	if q.front == nil {
-		q.front = newNode
-	} else {
-		q.rear.Next = newNode
-	}
-	q.rear = newNode
-	q.size++
+	q.dll.InsertTail(val)
 }
 
 func (q *Queue[T]) Dequeue() (val T, ok bool) {
-	if q.Empty() {
-		return val, false
-	}
-	val = q.rear.Val
-	q.rear = q.rear.Next
-	if q.front == q.rear {
-		q.front = q.front.Next
-	}
-	q.size--
-	return val, true
+	return q.dll.DeleteTail()
 }
 
 func (q *Queue[T]) Front() (val T, ok bool) {
-	if q.Empty() {
-		return val, false
-	}
-	return q.front.Val, true
+	return q.dll.Head()
 }
 
 func (q *Queue[T]) Rear() (val T, ok bool) {
-	if q.Empty() {
-		return val, false
-	}
-	return q.rear.Val, true
+	return q.dll.Tail()
 }
 
 func (q *Queue[T]) Empty() bool {
-	return q.size == 0
+	return q.dll.Empty()
 }
 
 func (q *Queue[T]) Size() int {
-	return q.size
+	return q.dll.Size()
 }
 
 func (q *Queue[T]) Slice() []T {
-	//	TODO:
-	return make([]T, 0)
+	return q.dll.Slice()
 }
