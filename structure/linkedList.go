@@ -217,11 +217,10 @@ func (ll *LinkedList[T]) Empty() bool {
 
 // The Slice method is used to convert the linked list into a slice
 func (ll *LinkedList[T]) Slice() []T {
-	slice := make([]T, ll.size)
+	slice := make([]T, 0, ll.size)
 	current := ll.head
-	i := 0
 	for current != nil {
-		slice[i] = current.Val
+		slice = append(slice, current.Val)
 		current = current.Next
 	}
 	return slice
