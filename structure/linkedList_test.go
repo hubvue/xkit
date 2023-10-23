@@ -2,6 +2,7 @@ package structure
 
 import (
 	"github.com/stretchr/testify/assert"
+	"math/rand"
 	"testing"
 )
 
@@ -33,6 +34,13 @@ func TestLinkedList_InsertTail(t *testing.T) {
 	assert.Equal(t, ll.head.Next.Val, 2)
 }
 
+func BenchmarkLinkedList_InsertTail(b *testing.B) {
+	ll := NewLinkedList[int]()
+	for i := 0; i < b.N; i++ {
+		ll.InsertTail(1)
+	}
+}
+
 func TestLinkedList_InsertHead(t *testing.T) {
 	ll := NewLinkedList[int]()
 	ll.InsertHead(1)
@@ -40,6 +48,13 @@ func TestLinkedList_InsertHead(t *testing.T) {
 	assert.Equal(t, ll.head.Val, 1)
 	ll.InsertHead(2)
 	assert.Equal(t, ll.head.Val, 2)
+}
+
+func BenchmarkLinkedList_InsertHead(b *testing.B) {
+	ll := NewLinkedList[int]()
+	for i := 0; i < b.N; i++ {
+		ll.InsertHead(1)
+	}
 }
 
 func TestLinkedList_InsertBefore(t *testing.T) {
@@ -62,6 +77,14 @@ func TestLinkedList_InsertBefore(t *testing.T) {
 	assert.Equal(t, ok, false)
 }
 
+func BenchmarkLinkedList_InsertBefore(b *testing.B) {
+	ll := NewLinkedList[int]()
+	ll.InsertHead(10)
+	for i := 0; i < b.N; i++ {
+		ll.InsertBefore(rand.Intn(30), rand.Intn(30))
+	}
+}
+
 func TestLinkedList_InsertAfter(t *testing.T) {
 	ll := NewLinkedList[int]()
 	ll.InsertTail(1)
@@ -71,6 +94,16 @@ func TestLinkedList_InsertAfter(t *testing.T) {
 	ok = ll.InsertAfter(3, 4)
 	assert.Equal(t, ok, false)
 	assert.Equal(t, ll.size, 2)
+}
+
+func BenchmarkLinkedList_InsertAfter(b *testing.B) {
+	ll := NewLinkedList[int]()
+	n := 0
+	ll.InsertHead(n)
+	for i := 0; i < b.N; i++ {
+		ll.InsertAfter(n, n+1)
+		n++
+	}
 }
 
 func TestLinkedList_Update(t *testing.T) {
@@ -83,6 +116,18 @@ func TestLinkedList_Update(t *testing.T) {
 	assert.Equal(t, ok, false)
 	val, _ := ll.Head()
 	assert.Equal(t, val, 3)
+}
+
+func BenchmarkLinkedList_Update(b *testing.B) {
+	ll := NewLinkedList[int]()
+	ll.InsertHead(5)
+	ll.InsertHead(1)
+	ll.InsertHead(1)
+	ll.InsertHead(1)
+	ll.InsertHead(1)
+	for i := 0; i < b.N; i++ {
+		ll.InsertAfter(5, 5)
+	}
 }
 
 func TestLinkedList_DeleteHead(t *testing.T) {
