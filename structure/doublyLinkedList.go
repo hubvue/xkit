@@ -50,7 +50,11 @@ func (dll *DoublyLinkedList[T]) InsertTail(val T) {
 // The InsertHead method inserts a new element at the head of the linked list
 func (dll *DoublyLinkedList[T]) InsertHead(val T) {
 	newNode := NewDoublyLinkedNode(val, nil, dll.head)
-	dll.head.Prev = newNode
+	if dll.head != nil {
+		dll.head.Prev = newNode
+	} else {
+		dll.tail = newNode
+	}
 	dll.head = newNode
 	dll.size++
 }
