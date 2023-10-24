@@ -39,6 +39,7 @@ func (dll *DoublyLinkedList[T]) InsertTail(val T) {
 	if dll.head == nil {
 		dll.head = newNode
 		dll.tail = newNode
+		dll.size++
 		return
 	}
 	newNode.Prev = dll.tail
@@ -113,10 +114,13 @@ func (dll *DoublyLinkedList[T]) InsertAfter(target, val T) bool {
 	}
 	tail := dll.tail
 	for head.Prev != tail && head != tail {
-		if head.Val == target {
-			newNode := NewDoublyLinkedNode(val, head, head.Next)
-			head.Next.Prev = newNode
-			head.Next = newNode
+		if head.Next.Val == target {
+			nextNext := head.Next.Next
+			newNode := NewDoublyLinkedNode(val, head.Next, nextNext)
+			if nextNext != nil {
+				nextNext.Prev = newNode
+			}
+			head.Next.Next = newNode
 			dll.size++
 			return true
 		}
@@ -150,8 +154,8 @@ func (dll *DoublyLinkedList[T]) Update(oldV, newV T) bool {
 	}
 	tail := dll.tail
 	for head.Prev != tail && head != tail {
-		if head.Val == oldV {
-			head.Val = newV
+		if head.Next.Val == oldV {
+			head.Next.Val = newV
 			return true
 		}
 		if tail.Val == oldV {
@@ -180,11 +184,16 @@ func (dll *DoublyLinkedList[T]) Delete(val T) bool {
 	}
 	tail := dll.tail
 	for head.Prev != tail && head != tail {
-		if head.Val == val {
-			head.Next.Prev = head.Prev
-			head.Prev.Next = head.Next
-			head.Next = nil
-			head.Prev = nil
+		if head.Next.Val == val {
+			current := head.Next
+			nextNext := current.Next
+			if nextNext != nil {
+				nextNext.Prev = head
+			}
+			head.Next = nextNext
+
+			current.Next = nil
+			current.Prev = nil
 			dll.size--
 			return true
 		}
@@ -200,6 +209,8 @@ func (dll *DoublyLinkedList[T]) Delete(val T) bool {
 			dll.size--
 			return true
 		}
+		head = head.Next
+		tail = tail.Prev
 	}
 	return false
 }
@@ -242,7 +253,21 @@ func (dll *DoublyLinkedList[T]) DeleteTail() (val T, ok bool) {
 
 // The Has method is used to check if a node with a specific value exists in the linked list
 func (dll *DoublyLinkedList[T]) Has(val T) bool {
-	//	TODO:
+	if dll.Empty() {
+		return false
+	}
+	head := dll.head
+	if head.Val == val {
+		return true
+	}
+	tail := dll.tail
+	for head.Prev != tail && head != tail {
+		if head.Next.Val == val || tail.Val == val {
+			return true
+		}
+		head = head.Next
+		tail = tail.Prev
+	}
 	return false
 }
 
@@ -278,6 +303,7 @@ func (dll *DoublyLinkedList[T]) Slice() []T {
 	head := dll.head
 	for head != nil {
 		slice = append(slice, head.Val)
+		head = head.Next
 	}
 	return slice
 }
