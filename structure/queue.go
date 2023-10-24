@@ -24,15 +24,15 @@ func (q *Queue[T]) Enqueue(val T) {
 }
 
 func (q *Queue[T]) Dequeue() (val T, ok bool) {
-	return q.dll.DeleteTail()
+	return q.dll.DeleteHead()
 }
 
 func (q *Queue[T]) Front() (val T, ok bool) {
-	return q.dll.Head()
+	return q.dll.Tail()
 }
 
 func (q *Queue[T]) Rear() (val T, ok bool) {
-	return q.dll.Tail()
+	return q.dll.Head()
 }
 
 func (q *Queue[T]) Empty() bool {
